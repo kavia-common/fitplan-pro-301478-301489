@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.database.connection import engine
+from src.api.routes import workouts, exercises, logs, progress
 
 # Create FastAPI app with metadata for OpenAPI documentation
 app = FastAPI(
@@ -49,6 +50,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Register routers
+app.include_router(workouts.router)
+app.include_router(exercises.router)
+app.include_router(logs.router)
+app.include_router(progress.router)
 
 
 @app.on_event("startup")
